@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "target": "ES2017",
+        "rootDir": "./TypeScript",
+        "outDir": "./Javascript",
+        "declaration": true,
+        "declarationDir": "./Types"
+    },
+}

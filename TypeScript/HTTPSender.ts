@@ -8,7 +8,7 @@ class HTTPSender {
   constructor() {}
   public async GET(url: string, options: RequestOptions): Promise<any> {
     return new Promise((resolve, reject) => {
-      if (typeof url !== "undefined")
+      if (typeof url !== "string")
         reject("String expected for url arg, received " + typeof url);
       const type = options.type ?? "text";
       const headers = options.headers ?? {};
@@ -17,6 +17,7 @@ class HTTPSender {
       Object.keys(headers).forEach((header) => {
         xhr.setRequestHeader(header, headers[header]);
       });
+      xhr.withCredentials = false;
       xhr.onload = () => {
         switch (type) {
           case "html":
