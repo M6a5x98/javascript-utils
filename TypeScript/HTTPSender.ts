@@ -7,6 +7,7 @@ type PostRequestOptions = {
   type?: XMLHttpRequestResponseType;
   body?: XMLBodyType;
 };
+type RequestMethod = "DELETE" | "PUT" | "PATCH" | "HEAD" | "OPTIONS" | string;
 
 type XMLResponseType = object | string | ArrayBuffer | Blob | Document | null;
 type XMLBodyType = Document | XMLHttpRequestBodyInit | null;
@@ -55,6 +56,39 @@ class HTTPSender {
       const body = options.body ?? null;
       const xhr = new XMLHttpRequest();
       xhr.open("POST", url);
+      Object.keys(headers).forEach((header) => {
+        xhr.setRequestHeader(header, headers[header]);
+      });
+      xhr.responseType = type;
+      xhr.onload = () => {
+        resolve({ body: xhr.response, status: xhr.status });
+      };
+      xhr.onerror = () => {
+        reject({ body: undefined, status: xhr.status });
+      };
+      try {
+        xhr.send(body);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+  public async request(
+    url: string,
+    method: RequestMethod,
+    Options: PostRequestOptions
+  ): Promise<XMLResponseType> {
+    return new Promise((resolve, reject) => {
+      if (typeof url !== "string")
+        reject("String expected for url arg, received " + typeof url);
+      if (typeof method !== "string")
+        reject("String expected for method arg, received " + typeof url);
+      const options = Options ?? {};
+      const type = (options.type ?? "text") as XMLHttpRequestResponseType;
+      const headers = options.headers ?? {};
+      const body = options.body ?? null;
+      const xhr = new XMLHttpRequest();
+      xhr.open(method, url);
       Object.keys(headers).forEach((header) => {
         xhr.setRequestHeader(header, headers[header]);
       });
