@@ -3,6 +3,6 @@
     "typescript": "^4.9.4"
   },
   "scripts": {
-    "build": "tsc --verbose --build"
+    "build": "tsc --build --verbose"
   }
 }
