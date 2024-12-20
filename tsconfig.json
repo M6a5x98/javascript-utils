@@ -4,7 +4,6 @@
         "rootDir": "./TypeScript",
         "outDir": "./Javascript",
         "declaration": true,
-        "declarationDir": "./Types",
-        "verbose": true
+        "declarationDir": "./Types"
     },
 }
